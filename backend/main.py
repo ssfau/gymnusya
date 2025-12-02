@@ -1,8 +1,11 @@
 from fastapi import FastAPI 
-from routers.nutrition import router as nutrition_router
-from routers.workout import router as workout_router
+from backend.db import Base, engine
+from backend.routers.nutrition import router as nutrition_router
+from backend.routers.workout import router as workout_router
 
 app = FastAPI()
+
+Base.metadata.create_all(bind=engine)
 
 app.include_router(nutrition_router, prefix="/nutrition")
 app.include_router(workout_router, prefix="/workout")
