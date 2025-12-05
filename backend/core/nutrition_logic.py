@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Float, String, Date, ForeignKey
 from sqlalchemy.orm import Session, Mapped, mapped_column
-from datetime import datetime
+from datetime import datetime, date
 from backend.db import Base
 from backend import schemas as schemas
 
@@ -10,7 +10,7 @@ class DailyNutritionLog(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[str] = mapped_column(index=True)
-    date: Mapped[Date] = mapped_column(index=True)
+    date: Mapped[date] = mapped_column(Date, index=True)
 
     calories: Mapped[float] = mapped_column(default=0)
     protein: Mapped[float] = mapped_column(default=0)
@@ -22,7 +22,7 @@ class MealEntry(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[str] = mapped_column(index=True)
-    date: Mapped[Date] = mapped_column(index=True)
+    date: Mapped[date] = mapped_column(Date, index=True)
 
     name: Mapped[str] = mapped_column(default="")
     calories: Mapped[float] = mapped_column(default=0)
