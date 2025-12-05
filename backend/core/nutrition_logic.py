@@ -1,31 +1,36 @@
 from sqlalchemy import Column, Integer, Float, String, Date, ForeignKey
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, Mapped, mapped_column
 from backend.db import Base
+from backend import schemas as schemas
+
 
 class DailyNutritionLog(Base):
     __tablename__ = "nutrition_logs"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(String, index=True)  # UUID same as UserSettings
-    date = Column(Date, index=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[str] = mapped_column(index=True)
+    date: Mapped[Date] = mapped_column(index=True)
 
-    calories = Column(Float, default=0)
-    protein = Column(Float, default=0)
-    carbs = Column(Float, default=0)
-    fats = Column(Float, default=0)
+    calories: Mapped[float] = mapped_column(default=0)
+    protein: Mapped[float] = mapped_column(default=0)
+    carbs: Mapped[float] = mapped_column(default=0)
+    fats: Mapped[float] = mapped_column(default=0)
+
+
+    
 
 class MealEntry(Base):
     __tablename__ = "meal_entries"
 
-    id = Column(Integer, primary_key=True)
-    user_id = Column(String, index=True)
-    date = Column(Date, index=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[str] = mapped_column(index=True)
+    date: Mapped[Date] = mapped_column(index=True)
 
-    name = Column(String)
-    calories = Column(Float)
-    protein = Column(Float)
-    carbs = Column(Float)
-    fats = Column(Float)
+    name: Mapped[str] = mapped_column(default="")
+    calories: Mapped[float] = mapped_column(default=0)
+    protein: Mapped[float] = mapped_column(default=0)
+    carbs: Mapped[float] = mapped_column(default=0)
+    fats: Mapped[float] = mapped_column(default=0)
 
 """
 def request_daily_nutrition(db: Session, data: schemas.DailyNutritionBase):
@@ -33,7 +38,7 @@ def request_daily_nutrition(db: Session, data: schemas.DailyNutritionBase):
     db.query()
 """
 
-def create_meal_entry(db: Session, data: schemas.MealEntryCreate):
+def create_meal_entry(db: Session, data: schemas.MealCreate):
     # meal entry update
     meal = MealEntry(**data.dict())
     db.add(meal)
@@ -52,7 +57,7 @@ def create_meal_entry(db: Session, data: schemas.MealEntryCreate):
         existing.calories += data.calories
         existing.protein += data.protein
         existing.carbs += data.carbs
-        existing.fats += data.fats   # FIXED
+        existing.fat += data.fat   # FIXED
 
         db.commit()
         db.refresh(existing)
@@ -63,7 +68,7 @@ def create_meal_entry(db: Session, data: schemas.MealEntryCreate):
             calories=data.calories,
             protein=data.protein,
             carbs=data.carbs,
-            fats=data.fats,    # FIXED
+            fat=data.fat,    # FIXED
         )
         db.add(todays)
         db.commit()

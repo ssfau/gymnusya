@@ -13,7 +13,7 @@ def root():
     return {"Hello":"Nutrition"}
 
 @router.post("/log_meal")
-def post_meal_entry(meal_data: schemas.MealEntryCreate, db: Session = Depends(get_db)):
+def post_meal_entry(meal_data: schemas.MealCreate, db: Session = Depends(get_db)):
     return create_meal_entry(db, meal_data)
 
 @router.get("/get_todays_nutrition")
