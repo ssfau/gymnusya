@@ -104,3 +104,36 @@ class DashboardResponse(BaseModel):
     calorie_goal: float = Field(..., examples=[2000])
     motivational_quote: str = Field(..., examples=["Stay strong, stay consistent!"])
 
+
+# -----------------------------
+# NUTRITION SCHEMAS
+# -----------------------------
+
+class NutritionEstimateResponse(BaseModel):
+    calories: float = Field(..., examples=[520])
+    protein: float = Field(..., examples=[30])
+    carbs: float = Field(..., examples=[60])
+    fats: float = Field(..., examples=[20])
+    description: str | None = Field(default=None, examples=["Chicken rice"])
+
+
+class NutritionLogResponse(BaseModel):
+    date: str = Field(..., examples=["2025-12-05"])
+    daily_log: Optional[dict] = Field(default=None)
+    meal_entries: List[dict] = Field(default_factory=list)
+
+
+class DailySummaryResponse(BaseModel):
+    date: str = Field(..., examples=["2025-12-05"])
+    calories: float = Field(..., examples=[1500])
+    protein: float = Field(..., examples=[80])
+    carbs: float = Field(..., examples=[200])
+    fats: float = Field(..., examples=[50])
+    meal_count: int = Field(..., examples=[3])
+
+
+class WeightProjectionResponse(BaseModel):
+    two_weeks: Optional[float] = Field(default=None, examples=[58.5])
+    one_month: Optional[float] = Field(default=None, examples=[58.0])
+    three_months: Optional[float] = Field(default=None, examples=[57.0])
+
